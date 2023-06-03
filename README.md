@@ -1,11 +1,31 @@
-It includes Typescript, EsLint, Jest, Winston, Prettier and many more please check package.json.
+master# Stock Analysis API's
 
-Following commands you have to run
+This is a TypeScript project that uses npm to manage dependencies and build scripts.
 
-1. `npm install` && `npm start`
+## Installation
 
+To install the project, clone the repository and run the following command:
 
-2. (optional) To update packaes to latest run
-`npx npm-check-updates -u` & `npm install`
+`npm install`
 
-3. (optional) To check any outdated npm please run `npm outdated` if you found any outdated module please repeat step 2.
+This will install all of the dependencies required to build and run the project.
+
+## Running
+
+To run the project, run the following command:
+
+`npm start`
+
+This will start the project and listen for incoming requests on the specified port.
+
+## Testing
+
+To run the tests for the project, run the following command:
+
+`npm test`
+
+This will run all of the tests in the `test` directory and output the results to the console.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
