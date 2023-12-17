@@ -8,5 +8,11 @@ export class RoutesV1 extends Routes {
     this.router
       .route('/angle-one/history')
       .post(new AngleOneRoute().getHistory);
+    this.router
+      .route('/angle-one/analytics')
+      .post(new AngleOneRoute().getStocksAnalysis);
+    this.router
+      .route('/angle-one/intraday')
+      .post(new AngleOneRoute().getIntradayStocksAnalysis);
   }
 }

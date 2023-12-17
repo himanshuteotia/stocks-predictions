@@ -27,7 +27,8 @@ export enum AngleOneErrorCodes {
   AB2001 = 'Internal Error, Please try after sometime',
   AB1031 = 'Old Password Mismatch',
   AB1032 = 'User Not Found',
-  AB2002 = 'ROBO order is block'
+  AB2002 = 'ROBO order is block',
+  AB13000 = 'Invalid date and time format'
 }
 
 export enum AngleOneHistoryIntervals {

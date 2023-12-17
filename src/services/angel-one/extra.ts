@@ -32,3 +32,5 @@ axios(config)
   .catch(function (error) {
     console.log(error);
   });
+
+// https://margincalculator.angelbroking.com/OpenAPI_File/files/OpenAPIScripMaster.json

@@ -3,8 +3,15 @@ import {
   AngleOneHistoryIntervals
 } from '../enums/angle-one.enums';
 import { ExcgangeTypes } from '../enums/exchange.enum';
+import {
+  MacdData,
+  MovingAverageData,
+  PriceChangeData,
+  RocData,
+  RsiData
+} from './analysis.interface';
 
-type CustomTimeFormat = `${string} ${string}`; // Example: '2021-02-08 09:00'
+export type CustomTimeFormat = `${string} ${string}`; // Example: '2021-02-08 09:00'
 
 export interface AngleOneHistoryParams {
   exchange: ExcgangeTypes;
@@ -14,8 +21,18 @@ export interface AngleOneHistoryParams {
   todate: CustomTimeFormat;
 }
 
-export interface AngleOneGenerateSessionResponse {
-  data: { jwtToken: string; refreshToken: string; feedToken: string };
+export interface AngleOneHistoryQueryParams {
+  onlyMomentum?: boolean;
+}
+
+export interface AngleOneGenerateTokenResponse {
+  jwtToken: string;
+  refreshToken: string;
+  feedToken: string;
+}
+
+export interface AngleOneTokenGenerateResponse {
+  data: AngleOneGenerateTokenResponse;
   status: boolean;
   message: string;
   errorcode: AngleOneErrorCodes;
@@ -36,4 +53,12 @@ export interface AngleOneHistoryResponse {
   message: string;
   errorcode: AngleOneErrorCodes;
   data: AngleOneHistoryOneCandleData[];
+}
+
+export interface StocksAnalysisData {
+  priceChange: PriceChangeData;
+  macd: MacdData;
+  rsi: RsiData;
+  roc: RocData;
+  movingAverage: MovingAverageData;
 }

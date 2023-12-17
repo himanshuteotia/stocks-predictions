@@ -2,8 +2,14 @@ import axios, { AxiosRequestConfig, Method, AxiosResponse } from 'axios';
 import { authenticator } from 'otplib';
 import config from '../../config/config';
 import { getCommonHeaders } from './angle-one.utils';
-import { AngleOneGenerateSessionResponse } from '../../interfaces/angle-one.interface';
+import {
+  AngleOneTokenGenerateResponse,
+  AngleOneGenerateTokenResponse
+} from '../../interfaces/angle-one.interface';
 import { AngleOneErrorCodes } from '../../enums/angle-one.enums';
+import NodeCache from 'node-cache';
+
+const nodeCache = new NodeCache({ deleteOnExpire: false });
 
 export class AngleOneAuthentication {
   private static readonly CLIENT_CODE = config.angleOne.clientCode;
@@ -22,7 +28,7 @@ export class AngleOneAuthentication {
    */
   public async generateSession(
     privateKey: string
-  ): Promise<AngleOneGenerateSessionResponse> {
+  ): Promise<AngleOneTokenGenerateResponse> {
     const totp = authenticator.generate(AngleOneAuthentication.TOTP);
     var data = JSON.stringify({
       clientcode: AngleOneAuthentication.CLIENT_CODE,
@@ -40,8 +46,9 @@ export class AngleOneAuthentication {
       data: data
     };
 
-    const response: AxiosResponse<AngleOneGenerateSessionResponse> =
-      await axios(options);
+    const response: AxiosResponse<AngleOneTokenGenerateResponse> = await axios(
+      options
+    );
 
     const session = response.data;
     if (!session.data) {
@@ -49,5 +56,75 @@ export class AngleOneAuthentication {
     }
 
     return session;
+  }
+
+  public async generateToken(): Promise<AngleOneGenerateTokenResponse> {
+    // If token is already available in Redis, return it.
+    const clientId = config.angleOne.clientCode;
+    const token = this.getToken(clientId);
+    const timeToLive = this.getTimeToLive(clientId);
+
+    if (token && timeToLive) {
+      return token;
+    }
+
+    const refreshToken = token?.refreshToken;
+
+    if (!refreshToken) {
+      const session = await this.generateSession(
+        config.angleOne.publisher.apiKey
+      );
+      this.saveToken(clientId, session.data);
+      return session.data;
+    }
+
+    const jwtToken = token?.jwtToken;
+    const authToken = `Bearer ${jwtToken}`;
+
+    const data = JSON.stringify({
+      refreshToken
+    });
+
+    const options: AxiosRequestConfig = {
+      method: 'POST' as Method,
+      url: 'https://apiconnect.angelbroking.com/rest/auth/angelbroking/jwt/v1/generateTokens',
+      headers: {
+        ...getCommonHeaders(),
+        Authorization: authToken,
+        'X-PrivateKey': config.angleOne.publisher.apiKey
+      },
+      data: data
+    };
+
+    const response: AxiosResponse<AngleOneTokenGenerateResponse> = await axios(
+      options
+    );
+
+    const tokens = response.data;
+    if (!tokens.data) {
+      throw new Error(AngleOneErrorCodes[tokens.errorcode]);
+    }
+
+    this.saveToken(clientId, tokens.data);
+
+    return tokens.data;
+  }
+
+  private saveToken(
+    clientId: string,
+    token: AngleOneGenerateTokenResponse,
+    expirationInSeconds = 3600
+  ) {
+    nodeCache.set(clientId, token, expirationInSeconds);
+  }
+
+  private getToken(
+    clientId: string
+  ): AngleOneGenerateTokenResponse | undefined {
+    return nodeCache.get(clientId);
+  }
+
+  private getTimeToLive(clientId): boolean {
+    return nodeCache.ttl(clientId);
   }
 }

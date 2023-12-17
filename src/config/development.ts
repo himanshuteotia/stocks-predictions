@@ -15,6 +15,8 @@ export default {
     publisher: {
       apiKey: '0ipPWaxt',
       secretKey: 'ce04aff1-452f-4b73-9ce0-d2392ec42eba'
-    }
+    },
+    symbolsURL:
+      'https://margincalculator.angelbroking.com/OpenAPI_File/files/OpenAPIScripMaster.json'
   }
 } as IConfig;
