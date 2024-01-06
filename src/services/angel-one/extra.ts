@@ -1,10 +1,12 @@
-var axios = require('axios');
+// TODO: code
+
+const axios = require('axios');
 const { authenticator } = require('otplib');
-const secret = 'TPMQ65H72DJ66VXVDOFWJYR2SM';
+const secret = '';
 const token = authenticator.generate(secret);
 var data = JSON.stringify({
-  clientcode: 'H253922',
-  password: '2283',
+  clientcode: '',
+  password: '',
   totp: token
 });
 
@@ -20,7 +22,7 @@ var config = {
     'X-ClientLocalIP': '192.168..29.188',
     'X-ClientPublicIP': '192.168..29.188',
     'X-MACAddress': 'ac:49:db:dd:78:b1',
-    'X-PrivateKey': '0ipPWaxt'
+    'X-PrivateKey': ''
   },
   data: data
 };
