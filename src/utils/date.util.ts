@@ -139,7 +139,7 @@ export function generateTimestamps(
   periods: number
 ) {
   let current = moment.tz(currentTime, 'Asia/Kolkata');
-  let timestamps: string[] = [];
+  const timestamps: string[] = [];
 
   while (timestamps.length < periods) {
     if (!isHolidayOrWeekend(current) && isTradingTime(current)) {
@@ -149,7 +149,7 @@ export function generateTimestamps(
     let subtractTime = timeframe;
 
     // Get start of trading day
-    let tradingStart = current
+    const tradingStart = current
       .clone()
       .startOf('day')
       .add(9, 'hours')
@@ -158,12 +158,12 @@ export function generateTimestamps(
     if (current.isBefore(tradingStart)) {
       current = moveToPreviousTradingTime(current);
     } else {
-      let diff = current.diff(tradingStart, 'minutes');
+      const diff = current.diff(tradingStart, 'minutes');
 
       if (diff < timeframe) {
         subtractTime = diff;
         current = moveToPreviousTradingTime(current);
-        let remainingTime = timeframe - subtractTime;
+        const remainingTime = timeframe - subtractTime;
         current.subtract(remainingTime, 'minutes');
       } else {
         current.subtract(subtractTime, 'minutes');
@@ -192,7 +192,11 @@ function isTradingTime(time: moment.Moment) {
 
 function moveToPreviousTradingTime(time: moment.Moment): moment.Moment {
   // move to end of trading time of previous day
-  let previousTradingDay = time.clone().subtract(1, 'days').hour(15).minute(30);
+  const previousTradingDay = time
+    .clone()
+    .subtract(1, 'days')
+    .hour(15)
+    .minute(30);
 
   // If the previous day is a holiday or weekend, keep subtracting days until a trading day is found
   while (isHolidayOrWeekend(previousTradingDay)) {
