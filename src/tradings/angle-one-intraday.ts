@@ -59,8 +59,8 @@ export class AngleOneIntraday {
       losses[i] = change < 0 ? -change : 0;
     }
 
-    let avgGain: number[] = [];
-    let avgLoss: number[] = [];
+    const avgGain: number[] = [];
+    const avgLoss: number[] = [];
 
     for (let i = period; i < historicalData.length; i++) {
       if (i === period) {
@@ -74,12 +74,12 @@ export class AngleOneIntraday {
       }
     }
 
-    let RS: number[] = [];
+    const RS: number[] = [];
     for (let i = period; i < avgGain.length; i++) {
       RS[i] = avgGain[i] / avgLoss[i];
     }
 
-    let RSI: number[] = [];
+    const RSI: number[] = [];
     for (let i = period; i < RS.length; i++) {
       RSI[i] = 100 - 100 / (1 + RS[i]);
     }

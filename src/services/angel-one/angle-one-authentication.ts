@@ -30,13 +30,13 @@ export class AngleOneAuthentication {
     privateKey: string
   ): Promise<AngleOneTokenGenerateResponse> {
     const totp = authenticator.generate(AngleOneAuthentication.TOTP);
-    var data = JSON.stringify({
+    const data = JSON.stringify({
       clientcode: AngleOneAuthentication.CLIENT_CODE,
       password: AngleOneAuthentication.PIN,
       totp
     });
 
-    var options: AxiosRequestConfig = {
+    const options: AxiosRequestConfig = {
       method: 'POST' as Method,
       url: AngleOneAuthentication.LOGIN_PASSWORD_URL,
       headers: {

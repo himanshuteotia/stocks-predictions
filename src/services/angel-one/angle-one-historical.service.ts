@@ -162,32 +162,32 @@ export default class AngelOneHistoricalService {
     const history = await this.getHistoryOfSymbol(params);
     const priceChangeData = await this.getPriceChangeData(history);
     const macdData = await this.getMacdData(history);
-    // const rsiData = await this.getRsiData(history);
-    // const rocData = await this.getRocData(history);
-    // const movingAverageData = await this.getMovingAverageData(history);
-    // const movingAverage200And20Data = await this.getMovingAvg200And20Data(
-    //   history
-    // );
+    const rsiData = await this.getRsiData(history);
+    const rocData = await this.getRocData(history);
+    const movingAverageData = await this.getMovingAverageData(history);
+    const movingAverage200And20Data = await this.getMovingAvg200And20Data(
+      history
+    );
 
     if (query.onlyMomentum) {
       const data = {
         priceChange: { momentum: priceChangeData.momentum },
-        macd: { momentum: macdData.momentum }
-        // rsi: { momentum: rsiData.momentum },
-        // roc: { momentum: rocData.momentum },
-        // movingAverage: { momentum: movingAverageData.momentum },
-        // movingAverage200And20: { momentum: movingAverage200And20Data.momentum }
+        macd: { momentum: macdData.momentum },
+        rsi: { momentum: rsiData.momentum },
+        roc: { momentum: rocData.momentum },
+        movingAverage: { momentum: movingAverageData.momentum },
+        movingAverage200And20: { momentum: movingAverage200And20Data.momentum }
       };
       return data;
     }
 
     const data = {
       priceChange: priceChangeData,
-      macd: macdData
-      // rsi: rsiData,
-      // roc: rocData,
-      // movingAverage: movingAverageData,
-      // movingAverage200And20: movingAverage200And20Data
+      macd: macdData,
+      rsi: rsiData,
+      roc: rocData,
+      movingAverage: movingAverageData,
+      movingAverage200And20: movingAverage200And20Data
     };
     return data;
   }

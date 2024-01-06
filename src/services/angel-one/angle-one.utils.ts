@@ -1,7 +1,3 @@
-import logger from '../../utils/logger.util';
-import axios, { AxiosRequestConfig, Method, AxiosResponse } from 'axios';
-import { Response } from 'express';
-
 export const getCommonHeaders = () => {
   return {
     'Content-Type': 'application/json',
