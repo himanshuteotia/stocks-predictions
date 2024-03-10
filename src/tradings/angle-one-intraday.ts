@@ -4,7 +4,6 @@ import {
   AngleOneHistoryParams
 } from '../interfaces/angle-one.interface';
 import AngelOneHistoricalService from '../services/angel-one/angle-one-historical.service';
-import logger from '../utils/logger.util';
 
 interface ADXData {
   timestamp: string;
@@ -48,10 +47,10 @@ export class AngleOneIntraday {
 
   private calculateRSI(
     historicalData: AngleOneHistoryOneCandleData[],
-    period: number = 14
+    period = 14
   ): number[] {
-    let gains = new Array(historicalData.length).fill(0);
-    let losses = new Array(historicalData.length).fill(0);
+    const gains = new Array(historicalData.length).fill(0);
+    const losses = new Array(historicalData.length).fill(0);
 
     for (let i = 1; i < historicalData.length; i++) {
       const change = historicalData[i][4] - historicalData[i - 1][4];
@@ -89,8 +88,8 @@ export class AngleOneIntraday {
 
   private getRSISignal(
     rsiValues: number[],
-    overBought: number = 70,
-    overSold: number = 30
+    overBought = 70,
+    overSold = 30
   ): string[] {
     return rsiValues.map((rsi) => {
       if (rsi >= overBought) {
@@ -125,7 +124,7 @@ export class AngleOneIntraday {
     period: number,
     threshold: number
   ): AngleOneHistoryOneCandleData[] {
-    const updatedData: any = [...this.data]; // Create a copy of the original data
+    const updatedData = [...this.data]; // Create a copy of the original data
 
     // Calculate average volume
     const startIndex = Math.max(this.data.length - period, 0);
@@ -139,9 +138,9 @@ export class AngleOneIntraday {
     updatedData.forEach((stock) => {
       const volume = stock[5];
       if (volume > threshold * averageVolume) {
-        stock.push(true); // Volume spike detected
+        stock.push("YES"); // Volume spike detected
       } else {
-        stock.push(false); // No volume spike
+        stock.push("NO"); // No volume spike
       }
     });
 
@@ -238,12 +237,9 @@ export class AngleOneIntraday {
     const sumDXValues: number[] = [];
 
     for (let i = 0; i < period; i++) {
-      // @ts-ignore
-      plusDIValues.push(null);
-      // @ts-ignore
-      minusDIValues.push(null);
-      // @ts-ignore
-      sumDXValues.push(null);
+      plusDIValues.push(NaN);
+      minusDIValues.push(NaN);
+      sumDXValues.push(NaN);
     }
 
     let sumPlusDM = plusDMValues
@@ -278,8 +274,7 @@ export class AngleOneIntraday {
     const smoothedDXValues: number[] = [];
 
     for (let i = 0; i < period * 2 - 1; i++) {
-      // @ts-ignore
-      smoothedDXValues.push(null);
+      smoothedDXValues.push(NaN);
     }
 
     for (let i = period * 2 - 1; i < data.length; i++) {

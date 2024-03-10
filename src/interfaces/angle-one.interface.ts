@@ -35,7 +35,7 @@ export interface AngleOneTokenGenerateResponse {
   data: AngleOneGenerateTokenResponse;
   status: boolean;
   message: string;
-  errorcode: AngleOneErrorCodes;
+  errorcode: keyof typeof AngleOneErrorCodes;
 }
 
 // [timestamp, open, high, low, close, volume].
@@ -51,7 +51,7 @@ export type AngleOneHistoryOneCandleData = [
 export interface AngleOneHistoryResponse {
   status: boolean;
   message: string;
-  errorcode: AngleOneErrorCodes;
+  errorcode: keyof typeof AngleOneErrorCodes;
   data: AngleOneHistoryOneCandleData[];
 }
 

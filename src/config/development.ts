@@ -1,7 +1,11 @@
+
+import merge from "deepmerge";
+import production from './production';
 import { IConfig } from '../interfaces/config.interface';
 
-export default {
+const config =  {
   port: 3000,
+  debug:true,
   env: 'development',
   angleOne: {
     totp: '',
@@ -20,3 +24,5 @@ export default {
       'https://margincalculator.angelbroking.com/OpenAPI_File/files/OpenAPIScripMaster.json'
   }
 } as IConfig;
+
+export default merge(production,config);

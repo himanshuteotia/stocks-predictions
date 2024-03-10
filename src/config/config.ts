@@ -1,13 +1,25 @@
-import development from './development';
-import production from './production';
-import { IConfig } from '../interfaces/config.interface';
+import developmentConfig from "./development";
+import productionConfig from "./production";
 
-let config: IConfig;
-
-if (process.env.NODE_ENV === 'production') {
-  config = production;
-} else {
-  config = development;
+export enum EnvironmentStr {
+  DEVELOPMENT = "development",
+  TESTING = "testing",
+  STAGE = "staging",
+  PRODUCTION = "production",
 }
 
-export default config;
+const { ENVIRONMENT } = process.env;
+export const production = ENVIRONMENT === EnvironmentStr.PRODUCTION;
+export const development = ENVIRONMENT === EnvironmentStr.DEVELOPMENT;
+export const environment = production ? EnvironmentStr.PRODUCTION : EnvironmentStr.DEVELOPMENT;
+
+const config = () =>{
+    if(production){
+        return productionConfig;
+    } else {
+        return developmentConfig;
+    }
+}
+
+
+export default config();

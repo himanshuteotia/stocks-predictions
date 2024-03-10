@@ -25,7 +25,6 @@ import MovingAverages200And20 from '../../analysis/ma-200-20-analysis';
 
 export default class AngelOneHistoricalService {
   private static readonly privateKey = config.angleOne.publisher.apiKey;
-  constructor() {}
 
   private getHistoryOptions(
     params: AngleOneHistoryParams,
@@ -36,7 +35,6 @@ export default class AngelOneHistoricalService {
       method: 'POST' as Method,
       url: 'https://apiconnect.angelbroking.com/rest/secure/angelbroking/historical/v1/getCandleData',
       headers: {
-        // TODO: Make private key dynamic
         'X-PrivateKey': AngelOneHistoricalService.privateKey,
         Authorization: authToken,
         ...getCommonHeaders()

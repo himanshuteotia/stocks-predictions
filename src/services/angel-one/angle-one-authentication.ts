@@ -18,8 +18,6 @@ export class AngleOneAuthentication {
   private static readonly LOGIN_PASSWORD_URL =
     'https://apiconnect.angelbroking.com/rest/auth/angelbroking/user/v1/loginByPassword';
 
-  constructor() {}
-
   /**
    * Generates a new session for the given private key.
    * @param {string} privateKey - The private key to use for authentication.
@@ -124,7 +122,7 @@ export class AngleOneAuthentication {
     return nodeCache.get(clientId);
   }
 
-  private getTimeToLive(clientId): boolean {
+  private getTimeToLive(clientId: string): boolean {
     return nodeCache.ttl(clientId);
   }
 }

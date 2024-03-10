@@ -1,6 +1,7 @@
 export interface IConfig {
   port: number;
   env: string;
+  debug: boolean;
   angleOne: {
     totp: string;
     clientCode: string;

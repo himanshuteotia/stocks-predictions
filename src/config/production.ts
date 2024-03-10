@@ -1,7 +1,8 @@
 import { IConfig } from '../interfaces/config.interface';
 
-export default {
+const config =  {
   port: 3000,
+  debug:false,
   env: 'production',
   angleOne: {
     password: '',
@@ -16,3 +17,5 @@ export default {
     }
   }
 } as IConfig;
+
+export default config;
